@@ -8,9 +8,19 @@ const titulo = document.querySelector( '.app__title')
 // Variavel imagem para realizar a troca de imagens junto
 const banner = document.querySelector('.app__image');
 //arrya botoes
-const botoes = document.querySelectorAll('.app__card-button')
+const botoes = document.querySelectorAll('.app__card-button');
 
+//Musica
+const inputFocoMusica = document.querySelector('#alternar-musica');
+const musica = new Audio('./sons/luna-rise-part-one.mp3')
 
+inputFocoMusica.addEventListener('change', () => {
+    if(musica.paused) {
+        musica.play();
+    } else {
+        musica.pause();
+    }
+})
 
 
 //Interatividade entre as páginas alterando o atributos do html 
