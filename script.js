@@ -7,6 +7,10 @@ const btnLongo = document.querySelector('.app__card-button--longo');
 const titulo = document.querySelector( '.app__title')
 // Variavel imagem para realizar a troca de imagens junto
 const banner = document.querySelector('.app__image');
+//arrya botoes
+const botoes = document.querySelectorAll('.app__card-button')
+
+
 
 
 //Interatividade entre as páginas alterando o atributos do html 
@@ -14,20 +18,32 @@ btnFoco.addEventListener('click',() => {
     // html.setAttribute('data-contexto', 'foco')
     // banner.setAttribute('src', '/imagens/foco.png')
     alterarContexto('foco')
+    //metodo para deixar dinâmico o estilo 
+    btnFoco.classList.add('active')
 })
 
 btnCurto.addEventListener('click', () => {
     // html.setAttribute('data-contexto','descanso-curto')
     // banner.setAttribute('src','/imagens/descanso-curto.png')
     alterarContexto('descanso-curto')
+    btnCurto.classList.add('active')
 })
 btnLongo.addEventListener('click',() =>{
     // html.setAttribute('data-contexto', 'descanso-longo')
     // banner.setAttribute('src','/imagens/descanso-longo.png')
     alterarContexto('descanso-longo')
+    btnLongo.classList.add('active')
 })
 
-function alterarContexto(contexto) {
+
+    
+    
+    function alterarContexto(contexto) {
+        botoes.forEach(function (contexto) {
+            contexto.classList.remove('active')
+    })
+    
+
     html.setAttribute('data-contexto', contexto)
     banner.setAttribute('src',`/imagens/${contexto}.png`)
 
