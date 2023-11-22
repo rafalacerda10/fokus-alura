@@ -14,6 +14,12 @@ const botoes = document.querySelectorAll('.app__card-button');
 const inputFocoMusica = document.querySelector('#alternar-musica');
 const musica = new Audio('./sons/luna-rise-part-one.mp3')
 
+let tempoSegundosDecorrido = 5 ;
+const btnStartPause = document.querySelector('#start-pause')
+let intervaloID = null;
+
+
+
 inputFocoMusica.addEventListener('change', () => {
     if(musica.paused) {
         musica.play();
@@ -93,3 +99,17 @@ btnLongo.addEventListener('click',() =>{
     }
 }
 
+const contagemRegressiva = () => {
+   // iniciar();
+    tempoSegundosDecorrido -= 1;
+    console.log(`Tempo decorrido em segundos ${tempoSegundosDecorrido}`)
+}
+
+//evento preisa ser feito após a criação do que tem que se realizar
+btnStartPause.addEventListener('click', contagemRegressiva)
+
+function iniciar() {
+    intervaloID = setInterval(
+        contagemRegressiva, 1000
+    )
+}
