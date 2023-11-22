@@ -1,19 +1,33 @@
-// Definicao das variaveis em planejamento
+// Definicao das variaveis
 
+//html
 const html = document.querySelector('html');
+
+//titulo
+const titulo = document.querySelector( '.app__title')
+
+//botões
 const btnFoco = document.querySelector('.app__card-button--foco');
 const btnCurto = document.querySelector('.app__card-button--curto');
 const btnLongo = document.querySelector('.app__card-button--longo');
-const titulo = document.querySelector( '.app__title')
-// Variavel imagem para realizar a troca de imagens junto
-const banner = document.querySelector('.app__image');
 //arrya botoes
 const botoes = document.querySelectorAll('.app__card-button');
+
+
+//Variaveis de Processos dentro da página 
+
+// Variavel imagem para realizar a troca de imagens junto
+const banner = document.querySelector('.app__image');
 
 //Musica
 const inputFocoMusica = document.querySelector('#alternar-musica');
 const musica = new Audio('./sons/luna-rise-part-one.mp3')
 
+//beep de ligar e desligar
+const audioPlay = new Audio ('./sons/play.wav')
+const audioPause = new Audio ('./sons/pause.mp3')
+
+//Variaveis de tempo
 let tempoSegundosDecorrido = 5 ;
 const btnStartPause = document.querySelector('#start-pause')
 let intervaloID = null;
@@ -52,7 +66,7 @@ btnLongo.addEventListener('click',() =>{
 })
 
 
-    
+    //função para ativação com o botão 
     
     function alterarContexto(contexto) {
         botoes.forEach(function (contexto) {
@@ -100,16 +114,33 @@ btnLongo.addEventListener('click',() =>{
 }
 
 const contagemRegressiva = () => {
+    if(tempoSegundosDecorrido <= 0) {
+    zerar();
+    alert('Tempo finalizado')
+    return
+    } 
    // iniciar();
     tempoSegundosDecorrido -= 1;
     console.log(`Tempo decorrido em segundos ${tempoSegundosDecorrido}`)
 }
 
-//evento preisa ser feito após a criação do que tem que se realizar
-btnStartPause.addEventListener('click', contagemRegressiva)
 
-function iniciar() {
-    intervaloID = setInterval(
-        contagemRegressiva, 1000
-    )
+
+
+//evento preisa ser feito após a criação do que tem que se realizar
+btnStartPause.addEventListener('click', iniciarOuPausar) 
+
+//funcçai de iniciar e pausar a contagem 
+function iniciarOuPausar() {
+    if(intervaloID) {
+        audioPause.play();
+        zerar()
+        return
+    } 
+        audioPlay.play();
+        intervaloID = setInterval( contagemRegressiva, 1000 )
+}
+function zerar() {
+    clearInterval(intervaloID)
+    intervaloID = null;
 }
