@@ -1,8 +1,6 @@
 // Definicao das variaveis
-
 //html
 const html = document.querySelector('html');
-
 //titulo
 const titulo = document.querySelector( '.app__title')
 
@@ -10,11 +8,14 @@ const titulo = document.querySelector( '.app__title')
 const btnFoco = document.querySelector('.app__card-button--foco');
 const btnCurto = document.querySelector('.app__card-button--curto');
 const btnLongo = document.querySelector('.app__card-button--longo');
-//arrya botoes
+//arrys botoes
 const botoes = document.querySelectorAll('.app__card-button');
 
+//BOTÃO COMEÇAR
+const iniciarOuPausarBtIcone = document.querySelector(".app__card-primary-butto-icon") 
+const BtnInicioPausa = document.querySelector('#start-pause span')
 
-//Variaveis de Processos dentro da página 
+
 
 // Variavel imagem para realizar a troca de imagens junto
 const banner = document.querySelector('.app__image');
@@ -29,20 +30,22 @@ const audioPause = new Audio ('./sons/pause.mp3')
 const finalizadoTempo = new Audio ('./sons/beep.mp3')
 
 //Variaveis de tempo
-let tempoSegundosDecorrido = 1500;
+let tempoSegundosDecorrido = 1500
 const btnStartPause = document.querySelector('#start-pause')
 let intervaloID = null;
 
 // Variavel html 
-const BtnInicioPausa = document.querySelector('#start-pause span')
 
 // variavel img
 const imagemPlay = document.querySelector('#start-pause img')
 
 
+
+
 //timer
 const tempoTela = document.querySelector('#timer')
 
+musica.loop = true;
 
 inputFocoMusica.addEventListener('change', () => {
     if(musica.paused) {
@@ -55,33 +58,36 @@ inputFocoMusica.addEventListener('change', () => {
 
 //Interatividade entre as páginas alterando o atributos do html 
 btnFoco.addEventListener('click',() => {
-    // html.setAttribute('data-contexto', 'foco')
-    // banner.setAttribute('src', '/imagens/foco.png')
-    alterarContexto('foco')
-    //metodo para deixar dinâmico o estilo 
-    btnFoco.classList.add('active')
+    tempoSegundosDecorrido = 1500;
+    alterarContexto('foco');
+    btnFoco.classList.add('active');
+    alterarContexto('foco');
 })
 
+// Interatividade descanso curto
 btnCurto.addEventListener('click', () => {
-    // html.setAttribute('data-contexto','descanso-curto')
-    // banner.setAttribute('src','/imagens/descanso-curto.png')
-    alterarContexto('descanso-curto')
-    btnCurto.classList.add('active')
+    tempoSegundosDecorrido = 300;
+    alterarContexto('descanso-curto');
+    btnCurto.classList.add('active');
+   
 })
+// Interatividade descanso longo
 btnLongo.addEventListener('click',() =>{
-    // html.setAttribute('data-contexto', 'descanso-longo')
-    // banner.setAttribute('src','/imagens/descanso-longo.png')
+    tempoSegundosDecorrido = 900;
     alterarContexto('descanso-longo')
     btnLongo.classList.add('active')
+
+
 })
 
 
-    //função para ativação com o botão 
-    
+//função para ativação com o botão    
     function alterarContexto(contexto) {
-        botoes.forEach(function (contexto) {
-            contexto.classList.remove('active')
-    })
+        mostrarTempo()
+        botoes.forEach (function (contexto){
+        contexto.classList.remove('active')
+    }
+    )
     
 
     html.setAttribute('data-contexto', contexto)
@@ -123,9 +129,10 @@ btnLongo.addEventListener('click',() =>{
     }
 }
 
+//Contagem regresiva
 const contagemRegressiva = () => {
     if(tempoSegundosDecorrido <= 0) {
-    //finalizadoTempo.play();
+    finalizadoTempo.play();
     alert('Tempo finalizado')
     zerar();
     return
@@ -140,20 +147,23 @@ const contagemRegressiva = () => {
 //evento preisa ser feito após a criação do que tem que se realizar
 btnStartPause.addEventListener('click', iniciarOuPausar) 
 
-//funcçai de iniciar e pausar a contagem 
+//funçao de iniciar e pausar a contagem 
 function iniciarOuPausar() {
     if(intervaloID) {
         audioPause.play();
         zerar()
         return
-    } 
+    }
         audioPlay.play();
         intervaloID = setInterval( contagemRegressiva, 1000 )
-     
-       
+        BtnInicioPausa.textContent = "Pausar"
+        iniciarOuPausarBtIcone.setAttribute('src', `/imagens/pause.png`)
 }
+       
+
 function zerar() {
     clearInterval(intervaloID)
+    iniciarOuPausarBtIcone
     intervaloID = null;
     BtnInicioPausa.textContent = "Começar"
     imagemPlay.innerHTML = `${tempo}`;
@@ -163,7 +173,8 @@ function zerar() {
 }
 
 function mostrarTempo() {
-    const tempo = tempoSegundosDecorrido;
-    tempoTela.innerHTML = `${tempo}`
+    const tempo = new Date(tempoSegundosDecorrido * 1000)
+    const tempoFormatado =  tempo.toLocaleTimeString('pt-br', {minute: '2-digit', second:'2-digit'})
+    tempoTela.innerHTML = `${tempoFormatado}`
 }
 mostrarTempo()
