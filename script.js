@@ -26,12 +26,22 @@ const musica = new Audio('./sons/luna-rise-part-one.mp3')
 //beep de ligar e desligar
 const audioPlay = new Audio ('./sons/play.wav')
 const audioPause = new Audio ('./sons/pause.mp3')
+const finalizadoTempo = new Audio ('./sons/beep.mp3')
 
 //Variaveis de tempo
-let tempoSegundosDecorrido = 5 ;
+let tempoSegundosDecorrido = 1500;
 const btnStartPause = document.querySelector('#start-pause')
 let intervaloID = null;
 
+// Variavel html 
+const BtnInicioPausa = document.querySelector('#start-pause span')
+
+// variavel img
+const imagemPlay = document.querySelector('#start-pause img')
+
+
+//timer
+const tempoTela = document.querySelector('#timer')
 
 
 inputFocoMusica.addEventListener('change', () => {
@@ -115,15 +125,15 @@ btnLongo.addEventListener('click',() =>{
 
 const contagemRegressiva = () => {
     if(tempoSegundosDecorrido <= 0) {
-    zerar();
+    //finalizadoTempo.play();
     alert('Tempo finalizado')
+    zerar();
     return
     } 
    // iniciar();
     tempoSegundosDecorrido -= 1;
-    console.log(`Tempo decorrido em segundos ${tempoSegundosDecorrido}`)
+    mostrarTempo();
 }
-
 
 
 
@@ -139,8 +149,21 @@ function iniciarOuPausar() {
     } 
         audioPlay.play();
         intervaloID = setInterval( contagemRegressiva, 1000 )
+     
+       
 }
 function zerar() {
     clearInterval(intervaloID)
     intervaloID = null;
+    BtnInicioPausa.textContent = "Começar"
+    imagemPlay.innerHTML = `${tempo}`;
+    
+ 
+
 }
+
+function mostrarTempo() {
+    const tempo = tempoSegundosDecorrido;
+    tempoTela.innerHTML = `${tempo}`
+}
+mostrarTempo()
