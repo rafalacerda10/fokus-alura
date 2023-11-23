@@ -160,7 +160,7 @@ function iniciarOuPausar() {
         iniciarOuPausarBtIcone.setAttribute('src', `/imagens/pause.png`)
 }
        
-
+// Função de Zerar() com configuração do btn
 function zerar() {
     clearInterval(intervaloID)
     iniciarOuPausarBtIcone
@@ -172,6 +172,7 @@ function zerar() {
 
 }
 
+// Fução  Mostrar Tempo
 function mostrarTempo() {
     const tempo = new Date(tempoSegundosDecorrido * 1000)
     const tempoFormatado =  tempo.toLocaleTimeString('pt-br', {minute: '2-digit', second:'2-digit'})
